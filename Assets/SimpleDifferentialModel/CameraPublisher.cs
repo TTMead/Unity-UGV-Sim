@@ -47,7 +47,7 @@ public class CameraPublisher : MonoBehaviour
         RenderTexture.active = beboopPovRenderTexture;
 
         // Create Texture2D
-        Texture2D screenshotTexture = new Texture2D(beboopPovRenderTexture.width, beboopPovRenderTexture.height);
+        Texture2D screenshotTexture = new Texture2D(beboopPovRenderTexture.width, beboopPovRenderTexture.height, TextureFormat.RGBA32, false, true);
 
         // Copy the pixels of the current renderer onto the texture 
         screenshotTexture.ReadPixels(new Rect(0, 0, beboopPovRenderTexture.width, beboopPovRenderTexture.height), 0, 0);
