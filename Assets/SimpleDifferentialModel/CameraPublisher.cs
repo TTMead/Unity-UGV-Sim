@@ -9,6 +9,7 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
 public class CameraPublisher : MonoBehaviour
 {
+    public string topic_name;
     public float fps_target = 10f;
 
     private RenderTexture beboopPovRenderTexture;
@@ -22,7 +23,7 @@ public class CameraPublisher : MonoBehaviour
         beboopPovRenderTexture = cameraComp.targetTexture;
         
         // Initialise image publisher
-        ROSConnection.GetOrCreateInstance().RegisterPublisher<RosMessageTypes.Sensor.ImageMsg>("/front_camera");
+        ROSConnection.GetOrCreateInstance().RegisterPublisher<RosMessageTypes.Sensor.ImageMsg>(topic_name);
 
         last_send_time = 0f;
     }
@@ -65,7 +66,7 @@ public class CameraPublisher : MonoBehaviour
         // Convert screenshot to image message with header
         ImageMsg imageMsg = screenshotTexture.ToImageMsg(header);
 
-        ROSConnection.GetOrCreateInstance().Publish("/front_camera", imageMsg);
+        ROSConnection.GetOrCreateInstance().Publish(topic_name, imageMsg);
     }
 
 }
