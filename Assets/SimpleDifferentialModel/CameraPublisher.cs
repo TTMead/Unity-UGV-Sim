@@ -14,7 +14,11 @@ public class CameraPublisher : MonoBehaviour
 
     private RenderTexture beboopPovRenderTexture;
     private float last_send_time;
+    private float last_send_time2;
     private Camera cameraComp;
+    private Texture2D screenshotTexture;
+    private ImageMsg imageMsg;
+    private RosMessageTypes.Std.HeaderMsg header;
 
     void Start()
     {
@@ -26,6 +30,10 @@ public class CameraPublisher : MonoBehaviour
         ROSConnection.GetOrCreateInstance().RegisterPublisher<RosMessageTypes.Sensor.ImageMsg>(topic_name);
 
         last_send_time = 0f;
+        last_send_time2 = 0f;
+
+        // Create Texture2D
+        screenshotTexture = new Texture2D(beboopPovRenderTexture.width, beboopPovRenderTexture.height, TextureFormat.RGBA32, false, true);
     }
 
     void Update()
@@ -47,9 +55,6 @@ public class CameraPublisher : MonoBehaviour
         // Set the current render texture to our Beboop-pov camera
         RenderTexture.active = beboopPovRenderTexture;
 
-        // Create Texture2D
-        Texture2D screenshotTexture = new Texture2D(beboopPovRenderTexture.width, beboopPovRenderTexture.height, TextureFormat.RGBA32, false, true);
-
         // Copy the pixels of the current renderer onto the texture 
         screenshotTexture.ReadPixels(new Rect(0, 0, beboopPovRenderTexture.width, beboopPovRenderTexture.height), 0, 0);
         screenshotTexture.Apply();
@@ -58,15 +63,22 @@ public class CameraPublisher : MonoBehaviour
         RenderTexture.active = null;
 
         // Create ROS header
-        RosMessageTypes.Std.HeaderMsg header = new RosMessageTypes.Std.HeaderMsg();
+        header = new RosMessageTypes.Std.HeaderMsg();
         header.stamp.sec = (int)Time.time;
         header.stamp.nanosec = (uint)(Time.time*1e9);
         header.frame_id = "camera_link";
 
         // Convert screenshot to image message with header
-        ImageMsg imageMsg = screenshotTexture.ToImageMsg(header);
+        imageMsg = screenshotTexture.ToImageMsg(header);
 
         ROSConnection.GetOrCreateInstance().Publish(topic_name, imageMsg);
+
+        if (Time.time - last_send_time2 > (1/fps_target)) {
+            Debug.Log(Time.time - last_send_time2);
+            last_send_time2 = Time.time;
+        }
+
+        yield return 0;
     }
 
 }
