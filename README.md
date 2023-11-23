@@ -1,6 +1,8 @@
 # Unity UGV Sim
 A Unity simulation for differential robots.
 
+![UGV SIM PREVIEW](ugv_sim_preview.png)
+
 ## Scenes
 **Differential Model** - Contains a simple differential model vehicle on a track indicated by blue and yellow boundaries. The vehicle is controlled using Twist messages under the `/cmd_vel` topic. The vehicle publishes wheel encoder data as a Twist message under the `/wheel_encoders` topic.
 
