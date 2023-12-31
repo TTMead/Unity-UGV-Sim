@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Unity.Robotics.ROSTCPConnector;
-using Unity.Robotics.ROSTCPConnector.ROSGeometry;
+using RosMessageTypes.Nav;
 
 public class WheelEncoder : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class WheelEncoder : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        ROSConnection.GetOrCreateInstance().RegisterPublisher<RosMessageTypes.Geometry.TwistMsg>(topic_name);
+        ROSConnection.GetOrCreateInstance().RegisterPublisher<RosMessageTypes.Nav.OdometryMsg>(topic_name);
     }
 
     // Update is called once per frame
@@ -31,13 +31,23 @@ public class WheelEncoder : MonoBehaviour
 
     void PublishEncoderMsg(float forward_velocity, float angular_velocity)
     {
-        RosMessageTypes.Geometry.TwistMsg encoderMsg = new RosMessageTypes.Geometry.TwistMsg();
-        encoderMsg.linear.x = forward_velocity;
-        encoderMsg.linear.y = 0;
-        encoderMsg.linear.z = 0;
-        encoderMsg.angular.x = 0;
-        encoderMsg.angular.y = 0;
-        encoderMsg.angular.z = angular_velocity;
+        RosMessageTypes.Nav.OdometryMsg encoderMsg = new RosMessageTypes.Nav.OdometryMsg();
+
+        encoderMsg.pose.pose.position.x = 0;
+        encoderMsg.pose.pose.position.y = 0;
+        encoderMsg.pose.pose.position.z = 0;
+        encoderMsg.pose.pose.orientation.x = 0;
+        encoderMsg.pose.pose.orientation.y = 0;
+        encoderMsg.pose.pose.orientation.z = 0;
+        encoderMsg.pose.pose.orientation.w = 0;
+
+        encoderMsg.twist.twist.linear.x = forward_velocity;
+        encoderMsg.twist.twist.linear.y = 0;
+        encoderMsg.twist.twist.linear.z = 0;
+        encoderMsg.twist.twist.angular.x = 0;
+        encoderMsg.twist.twist.angular.y = 0;
+        encoderMsg.twist.twist.angular.z = angular_velocity;
+        
         ROSConnection.GetOrCreateInstance().Publish(topic_name, encoderMsg);
     }
 }

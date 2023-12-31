@@ -74,7 +74,6 @@ public class CameraPublisher : MonoBehaviour
         ROSConnection.GetOrCreateInstance().Publish(topic_name, imageMsg);
 
         if (Time.time - last_send_time2 > (1/fps_target)) {
-            Debug.Log(Time.time - last_send_time2);
             last_send_time2 = Time.time;
         }
 
