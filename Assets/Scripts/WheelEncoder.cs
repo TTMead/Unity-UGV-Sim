@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using Unity.Robotics.ROSTCPConnector;
-using RosMessageTypes.Nav;
+using Unity.Robotics.ROSTCPConnector.ROSGeometry;
+using Unity.Robotics.Core;
 
 public class WheelEncoder : MonoBehaviour
 {
@@ -16,7 +18,7 @@ public class WheelEncoder : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        ROSConnection.GetOrCreateInstance().RegisterPublisher<RosMessageTypes.Nav.OdometryMsg>(topic_name);
+        ROSConnection.GetOrCreateInstance().RegisterPublisher<RosMessageTypes.Geometry.TwistWithCovarianceStampedMsg>(topic_name);
     }
 
     // Update is called once per frame
@@ -25,21 +27,18 @@ public class WheelEncoder : MonoBehaviour
         if ((Time.time - prev_publish_time) > (1/publish_rate_hz))
         {
             prev_publish_time = Time.time;
-            PublishEncoderMsg(rb.velocity.z, -rb.angularVelocity.y);
+            PublishEncoderMsg(-transform.InverseTransformDirection(rb.velocity).z, -rb.angularVelocity.y);
         }
     }
 
     void PublishEncoderMsg(float forward_velocity, float angular_velocity)
     {
-        RosMessageTypes.Nav.OdometryMsg encoderMsg = new RosMessageTypes.Nav.OdometryMsg();
+        RosMessageTypes.Geometry.TwistWithCovarianceStampedMsg encoderMsg = new RosMessageTypes.Geometry.TwistWithCovarianceStampedMsg();
 
-        encoderMsg.pose.pose.position.x = 0;
-        encoderMsg.pose.pose.position.y = 0;
-        encoderMsg.pose.pose.position.z = 0;
-        encoderMsg.pose.pose.orientation.x = 0;
-        encoderMsg.pose.pose.orientation.y = 0;
-        encoderMsg.pose.pose.orientation.z = 0;
-        encoderMsg.pose.pose.orientation.w = 0;
+        var publishTime = Clock.time;
+        encoderMsg.header.stamp.sec = (int)publishTime;
+        encoderMsg.header.stamp.nanosec = (uint)((publishTime - Math.Floor(publishTime)) * Clock.k_NanoSecondsInSeconds);
+        encoderMsg.header.frame_id = "base_link";
 
         encoderMsg.twist.twist.linear.x = forward_velocity;
         encoderMsg.twist.twist.linear.y = 0;
@@ -47,6 +46,14 @@ public class WheelEncoder : MonoBehaviour
         encoderMsg.twist.twist.angular.x = 0;
         encoderMsg.twist.twist.angular.y = 0;
         encoderMsg.twist.twist.angular.z = angular_velocity;
+
+        const double epsilon = 1e-6;
+        encoderMsg.twist.covariance[0] = epsilon;
+        encoderMsg.twist.covariance[7] = epsilon;
+        encoderMsg.twist.covariance[14] = epsilon;
+        encoderMsg.twist.covariance[21] = epsilon;
+        encoderMsg.twist.covariance[28] = epsilon;
+        encoderMsg.twist.covariance[35] = epsilon;
         
         ROSConnection.GetOrCreateInstance().Publish(topic_name, encoderMsg);
     }
