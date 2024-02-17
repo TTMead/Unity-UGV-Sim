@@ -27,7 +27,7 @@ public class WheelEncoder : MonoBehaviour
         if ((Time.time - prev_publish_time) > (1/publish_rate_hz))
         {
             prev_publish_time = Time.time;
-            PublishEncoderMsg(-transform.InverseTransformDirection(rb.velocity).z, -rb.angularVelocity.y);
+            PublishEncoderMsg(transform.InverseTransformDirection(rb.velocity).z, -rb.angularVelocity.y);
         }
     }
 

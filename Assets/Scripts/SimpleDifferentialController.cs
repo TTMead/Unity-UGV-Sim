@@ -27,7 +27,7 @@ public class SimpleDifferentialController : MonoBehaviour
 
     void Update()
     {
-        rb.AddRelativeForce(Vector3.back * (float)prev_twist_msg.linear.x * throttle_scaling * Time.deltaTime, ForceMode.Acceleration);
+        rb.AddRelativeForce(Vector3.forward * (float)prev_twist_msg.linear.x * throttle_scaling * Time.deltaTime, ForceMode.Acceleration);
         rb.AddRelativeTorque(Vector3.down * (float)prev_twist_msg.angular.z * yawrate_scaling * Time.deltaTime, ForceMode.Acceleration);
 
         // 0.5s timeout on cmd_vel messages
