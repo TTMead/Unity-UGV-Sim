@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 70729158650137508}
   - component: {fileID: 70729158650137509}
   - component: {fileID: 2097201382779367187}
+  - component: {fileID: 82294631700884857}
   - component: {fileID: 70729158650137510}
   m_Layer: 0
   m_Name: SimpleDifferentialModel
@@ -66,6 +67,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topic_name: wheel_encoders
   publish_rate_hz: 10
+--- !u!114 &82294631700884857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70729158650137506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f780593f49274e49581f76997e00c08a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameId: imu
+  topicName: imu/data
+  gyroscopeNoiseDensity: 0.015
+  gyroscopeSampleRate: 1125
+  accelerometerNoiseDensity: 230
+  linearAccelerationVariance: 0.0003
+  angularVelocityVariance: 0.0003
+  orientationVariance: 1
 --- !u!54 &70729158650137510
 Rigidbody:
   m_ObjectHideFlags: 0

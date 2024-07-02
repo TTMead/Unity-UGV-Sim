@@ -1621,57 +1621,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951480137}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2053780392 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 70729158650137506, guid: d358d1f9dab1daf4891ebaced453e584, type: 3}
-  m_PrefabInstance: {fileID: 70729160522313440}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2053780393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2053780392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c735cd4b1067b915bb7f929fe77ffd44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  topic_name: wheel_encoders
-  publish_rate_hz: 10
---- !u!114 &2053780397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2053780392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780593f49274e49581f76997e00c08a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frameId: imu
-  topicName: imu/data
-  gyroscopeNoiseDensity: 0.015
-  gyroscopeSampleRate: 1125
-  accelerometerNoiseDensity: 230
-  linearAccelerationVariance: 0.0003
-  angularVelocityVariance: 0.0003
-  orientationVariance: 1
---- !u!114 &2053780398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2053780392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b726b8594e115334ca1e56911b08f45a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &70729160522313440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1734,16 +1683,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 70729158650137508, guid: d358d1f9dab1daf4891ebaced453e584, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1648791286}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 70729158650137506, guid: d358d1f9dab1daf4891ebaced453e584, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2053780393}
-    - targetCorrespondingSourceObject: {fileID: 70729158650137506, guid: d358d1f9dab1daf4891ebaced453e584, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2053780398}
-    - targetCorrespondingSourceObject: {fileID: 70729158650137506, guid: d358d1f9dab1daf4891ebaced453e584, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2053780397}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d358d1f9dab1daf4891ebaced453e584, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
